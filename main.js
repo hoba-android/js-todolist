@@ -101,8 +101,7 @@ function calculateTasks() {
   tasksCount.innerHTML = document.querySelectorAll(
     '.tasks-content .task-box'
   ).length;
-  let finsihed = document.querySelectorAll('.tasks-content .finished').length;
-  console.log('finished', finsihed);
+
   tasksCompleted.innerHTML = document.querySelectorAll(
     '.tasks-content .finished'
   ).length;
