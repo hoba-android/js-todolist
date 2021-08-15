@@ -42,6 +42,11 @@ theAddButton.addEventListener('click', () => {
       deleteElemet.className = 'delete';
       taskContainer.appendChild(mainSpan);
       theInput.value = '';
+      calculateTasks();
+      let noTasksMsg = document.querySelector('.no-tasks');
+      if (document.body.contains(noTasksMsg)) {
+        noTasksMsg.remove();
+      }
     }
   }
 });
@@ -53,10 +58,13 @@ function checkDuplicates(contents) {
 document.addEventListener('click', (e) => {
   if (e.target.className === 'delete') {
     e.target.parentNode.remove();
+    tasksText.pop();
+    createNoTasksSpan();
+    calculateTasks();
   }
   if (e.target.classList.contains('task-box')) {
-    console.log('hi');
     e.target.classList.toggle('finished');
+    calculateTasks();
   }
 });
 
@@ -65,7 +73,10 @@ function deleteAll() {
   allTasks.forEach((span) => {
     span.remove();
   });
+  tasksText = [];
+  createNoTasksSpan();
   theInput.value = '';
+  calculateTasks();
 }
 
 function finishAll() {
@@ -73,4 +84,26 @@ function finishAll() {
   allTasks.forEach((span) => {
     span.classList.toggle('finished');
   });
+  calculateTasks();
+}
+
+function createNoTasksSpan() {
+  if (tasksText.length === 0) {
+    let noTasksSpan = document.createElement('span');
+    let spanText = document.createTextNode('No tasks yet...');
+    noTasksSpan.appendChild(spanText);
+    noTasksSpan.className = 'no-tasks';
+    taskContainer.appendChild(noTasksSpan);
+  }
+}
+
+function calculateTasks() {
+  tasksCount.innerHTML = document.querySelectorAll(
+    '.tasks-content .task-box'
+  ).length;
+  let finsihed = document.querySelectorAll('.tasks-content .finished').length;
+  console.log('finished', finsihed);
+  tasksCompleted.innerHTML = document.querySelectorAll(
+    '.tasks-content .finished'
+  ).length;
 }
